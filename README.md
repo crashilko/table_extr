@@ -11,4 +11,4 @@ The project is the solution to the test task in Alpha Internship
 * Pandas 
 * Cv2
 * Pytesseract
-* streamlit 
+* StreamLit 

@@ -9,6 +9,9 @@ The project is the solution to the test task in Alpha Internship
 * [Line extraction](#Line-Extraction)
 * [Box extraction](#Box-Extraction)
 * [Creating rows](#Creating-Rows)
+* [Equalizing rows](#Equalizing-Rows)
+* [Applying Tesseract](#Applying-Tesseract)
+* [Resultind dataframe](#Resulting-Dataframe)
 
 
 ## Used Libraries
@@ -128,6 +131,70 @@ for i in range(len(rows)):
 	if len(rows[i])>max_len:
 		max_len=len(rows[i])
 
-x_start=list(set(col_x))
+x_start = list(set(col_x))
 x_start = sorted(x_start)
+```
+## Equalizing Rows
+As we can see, rows are not equal in length. The folowwing can organize them with respect to their location in the original table
+```python3
+i=0
+for row in rows:
+	while i < len(row):
+		#st.write(row[i][0])
+		if row[i][0] !=  x_start[i]:
+
+			row.insert(i,[x_start[i],None,None,None])
+			i=i+1
+		else:
+			i=i+1
+	i=0	
+```
+## Applying Tesseract
+Now when we have boxes it is time to apply Tesseract and put everything in a dataframe
+```python3
+dataframe_final = []
+df_row = []
+df_col = []
+for row in rows:
+    for column in row:
+        s = ''
+        y, x, w, h = column[0], column[1], column[2], column[3]
+        
+        if x != None:
+        
+        	roi = im2[x - 1 : x + h + 1, y - 1 : y + w + 1]
+        
+        	
+        	kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 1))
+        	resizing = cv2.resize(roi, None, fx = 2, fy = 2, interpolation = cv2.INTER_CUBIC)
+        	dilation = cv2.dilate(resizing, kernel,iterations = 1)
+        	erosion = cv2.erode(dilation, kernel,iterations = 2)  
+        	#st.image(erosion)
+
+        	out = pytesseract.image_to_string(erosion, lang = 'rus')
+        	if(len(out)==0):
+        		out = pytesseract.image_to_string(erosion, lang = 'rus')
+        	s = s + " " + out
+        	df_row.append(s)
+        	
+        	
+        	#st.write(s)
+        else:
+        	s= ' '
+        	df_row.append(s)
+        
+        
+    df_col.append(df_row)
+    df_row = []
+```
+## Resulting Dataframe
+```python3
+dataframe = pd.DataFrame(df_col)
+dataframe = dataframe.loc[:, ~dataframe.columns.duplicated()]
+
+#print(dataframe)
+st.header('Resulting table')
+st.write(dataframe)
+
+dataframe.to_excel("output.xlsx")
 ```

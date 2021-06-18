@@ -3,11 +3,29 @@ This is a project dedicated to computer vision. The goal is to define a table on
 The project is the solution to the test task in Alpha Internship
 
 ## How to make it work
-I am currently working on creating a container for this app
+I am currently working on creating a Docker container for this app
 
 Before it is done there are several necessary actions to make it work
+Install NumPy
 ```bash
 pip3 install numpy
+```
+Install Pandas
+```bash
+pip3 install pandas
+```
+Install StreamLit
+```bash
+pip3 install streamlit
+```
+Install Cv2
+```bash
+pip3 install pencv-contrib-python
+```
+Install Tesseract
+```bash
+brew install tesseract-lang
+pip3 install pytesseract
 ```
 
 ## Table of Contents

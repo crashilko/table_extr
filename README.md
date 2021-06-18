@@ -7,6 +7,7 @@ The project is the solution to the test task in Alpha Internship
 * [Image upload](#Image-Upload)
 * [Image preprocessing](#Image-Preprocessing)
 * [Line extraction](#Line-Extraction)
+* [Box extraction](#Box-Extraction)
 
 
 ## Used Libraries
@@ -64,3 +65,20 @@ inverse = cv2.bitwise_not(convert_xor)
 st.header('Extracting table structure')
 st.image(combine)
 ``` 
+## Box Extraction
+Then we need to extract single cells to use Tesseract. You can adjust thresholding using slider for a better result.
+
+contours, hierarchy = cv2.findContours(combine, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+boundingBoxes = [cv2.boundingRect(contour) for contour in contours]
+(contours, boundingBoxes) = zip(*sorted(zip(contours, boundingBoxes),key=lambda x : x[1][1]))
+```python3
+boxes = []
+img = cv2.cvtColor(img,cv2.COLOR_GRAY2RGB) 
+w_thres = st.slider('Choose a better threshold for a box width',100,1000,500,10,help ='') 
+for contour in contours:
+  x, y, w, h = cv2.boundingRect(contour)
+  if (w < w_thres and h < 500 and w > 10 and h > 10):
+
+    img = cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+    boxes.append([x, y, w, h])
+```

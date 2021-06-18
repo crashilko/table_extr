@@ -67,11 +67,11 @@ st.image(combine)
 ``` 
 ## Box Extraction
 Then we need to extract single cells to use Tesseract. You can adjust thresholding using slider for a better result.
-
+```python3
 contours, hierarchy = cv2.findContours(combine, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 boundingBoxes = [cv2.boundingRect(contour) for contour in contours]
 (contours, boundingBoxes) = zip(*sorted(zip(contours, boundingBoxes),key=lambda x : x[1][1]))
-```python3
+
 boxes = []
 img = cv2.cvtColor(img,cv2.COLOR_GRAY2RGB) 
 w_thres = st.slider('Choose a better threshold for a box width',100,1000,500,10,help ='') 
@@ -81,4 +81,52 @@ for contour in contours:
 
     img = cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     boxes.append([x, y, w, h])
+```
+## Creating rows
+A function needed to remove boxes in boxes
+```python3
+def drop_box(list_of_boxes):
+	for box_1 in list_of_boxes:
+		for box_2 in list_of_boxes:
+			if box_1 == box_2:
+				pass
+			else:
+				if box_1[0] == box_2[0] and box_1[1] == box_2[1]:
+					if box_1[2]*box_1[3] > box_2[2]*box_2[3]:
+						list_of_boxes.remove(box_1)
+					else:
+						list_of_boxes.remove(box_1)
+	return list_of_boxes
+```
+The program organizes the boxes due to their height, creating rows out of boxes which have the same y value
+```python3
+boxes = drop_box(boxes)
+
+boxes.sort(key = lambda x : x[1], reverse = True)
+print('boxes', boxes)
+row_y = []
+col_x = []
+for box in boxes:
+	row_y.append(box[1])
+	col_x.append(box[0])
+print(set(row_y))
+
+rows = []
+row = []
+for y in sorted(set(row_y)):
+	for box in boxes:
+		if abs(box[1] - y) < 5:
+			row.append(box)
+	rows.append(row)
+	row = []
+print(rows)
+
+max_len = 0
+for i in range(len(rows)):
+	rows[i].sort(key=lambda x: x[0])
+	if len(rows[i])>max_len:
+		max_len=len(rows[i])
+
+x_start=list(set(col_x))
+x_start = sorted(x_start)
 ```

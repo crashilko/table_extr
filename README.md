@@ -16,7 +16,8 @@ The project is the solution to the test task in Alpha Internship
 * StreamLit 
 
 ## Image Upload
-```st.title('Table recognition')
+```python3
+st.title('Table recognition')
 
 uploaded_file = st.file_uploader("Choose a image file", type = ['jpg','jpeg','png'])
 

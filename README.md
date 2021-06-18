@@ -8,6 +8,7 @@ The project is the solution to the test task in Alpha Internship
 * [Image preprocessing](#Image-Preprocessing)
 * [Line extraction](#Line-Extraction)
 * [Box extraction](#Box-Extraction)
+* [Creating rows](#Creating-Rows)
 
 
 ## Used Libraries
@@ -82,7 +83,7 @@ for contour in contours:
     img = cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     boxes.append([x, y, w, h])
 ```
-## Creating rows
+## Creating Rows
 A function needed to remove boxes in boxes
 ```python3
 def drop_box(list_of_boxes):

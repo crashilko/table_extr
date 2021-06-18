@@ -2,6 +2,14 @@
 This is a project dedicated to computer vision. The goal is to define a table on a given picture and extract information with respect to its structure. 
 The project is the solution to the test task in Alpha Internship
 
+## How to make it work
+I am currently working on creating a container for this app
+
+Before it is done there are several necessary actions to make it work
+```bash
+pip3 install numpy
+```
+
 ## Table of Contents
 * [Used libraries](#Used-Libraries)
 * [Image upload](#Image-Upload)

@@ -31,7 +31,7 @@ If Russian is not installed then put rus.traineddata into tessdata folder
 
 To run simply input
 ```bash
-streamlit ocr4.py
+streamlit run ocr4.py
 ```
 
 

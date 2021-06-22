@@ -6,6 +6,7 @@ The project is the solution to the test task in Alpha Internship
 I am currently working on creating a Docker container for this app
 
 Before it is done there are several necessary actions to make it work
+
 Install NumPy
 ```bash
 pip3 install numpy

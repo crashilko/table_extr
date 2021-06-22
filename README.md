@@ -80,6 +80,7 @@ grey_scale = 255 - grey_scale
 st.header('Inverted image')
 st.image(grey_scale)
 ``` 
+![alt text](https://github.com/crashilko/table-extr/process-steps/step1.png?raw=true)
 ## Line Extraction
 Extracting horizontal and vertical lines and combining it to form a table structure.
 ```python3

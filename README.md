@@ -20,7 +20,7 @@ pip3 install streamlit
 ```
 Install Cv2
 ```bash
-pip3 install pencv-contrib-python
+pip3 install opencv-contrib-python
 ```
 Install Tesseract
 ```bash

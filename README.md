@@ -104,6 +104,7 @@ inverse = cv2.bitwise_not(convert_xor)
 st.header('Extracting table structure')
 st.image(combine)
 ``` 
+![alt text](https://github.com/crashilko/table_extr/blob/main/process-steps/step2.png)
 ## Box Extraction
 Then we need to extract single cells to use Tesseract. You can adjust thresholding using slider for a better result.
 ```python3
@@ -121,6 +122,7 @@ for contour in contours:
     img = cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     boxes.append([x, y, w, h])
 ```
+
 ## Creating Rows
 A function needed to remove boxes in boxes
 ```python3
@@ -222,6 +224,7 @@ for row in rows:
     df_col.append(df_row)
     df_row = []
 ```
+![alt text](https://github.com/crashilko/table_extr/blob/main/process-steps/step4.png)
 ## Resulting Dataframe
 ```python3
 dataframe = pd.DataFrame(df_col)
@@ -233,3 +236,4 @@ st.write(dataframe)
 
 dataframe.to_excel("output.xlsx")
 ```
+![alt text](https://github.com/crashilko/table_extr/blob/main/process-steps/step5.png)

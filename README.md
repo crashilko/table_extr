@@ -46,7 +46,7 @@ streamlit run ocr4.py
 * [Creating rows](#Creating-Rows)
 * [Equalizing rows](#Equalizing-Rows)
 * [Applying Tesseract](#Applying-Tesseract)
-* [Resultind dataframe](#Resulting-Dataframe)
+* [Resulting dataframe](#Resulting-Dataframe)
 
 
 ## Used Libraries

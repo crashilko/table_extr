@@ -23,7 +23,7 @@ def drop_box(list_of_boxes):
 st.title('Table recognition')
 
 uploaded_file = st.file_uploader("Choose a image file", type = ['jpg','jpeg','png'])
-
+filename = uploaded_file.name
 if uploaded_file is not None:
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype = np.uint8)
     img = cv2.imdecode(file_bytes, 0)
@@ -36,11 +36,11 @@ if uploaded_file is not None:
 
 
  
-convert_bin, im2 = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)
-thres = st.slider('Choose a better threshold',100,255,128,2,help ='usually it is nice to set 128')  #
+
+thres = st.slider('Choose a better threshold',100,255,180,2,help ='usually it is nice to set 128')  #
 
 convert_bin, grey_scale = cv2.threshold(img, thres, 255, cv2.THRESH_BINARY)
-
+convert_bin, im2 = cv2.threshold(img, thres, 255, cv2.THRESH_BINARY)
 grey_scale = 255 - grey_scale
 
 st.header('Inverted image')
@@ -80,7 +80,7 @@ boundingBoxes = [cv2.boundingRect(contour) for contour in contours]
 
 boxes = []
 img = cv2.cvtColor(img,cv2.COLOR_GRAY2RGB) 
-w_thres = st.slider('Choose a better threshold for a box width',100,1000,500,10,help ='') 
+w_thres = st.slider('Choose a better threshold for a box width',100,2000,500,10,help ='') 
 for contour in contours:
   x, y, w, h = cv2.boundingRect(contour)
   if (w < w_thres and h < 500 and w > 10 and h > 10):
@@ -155,6 +155,7 @@ df_row = []
 df_col = []
 
 
+
 for row in rows:
     for column in row:
         s = ''
@@ -164,8 +165,10 @@ for row in rows:
         y, x, w, h = column[0], column[1], column[2], column[3]
         
         if x != None:
-        
-        	roi = im2[x - 1 : x + h + 1, y - 1 : y + w + 1]
+        	if x == 0 or y == 0:
+        		roi = im2[x : x + h, y : y + w ]
+        	else:
+        		roi = im2[x - 1 : x + h + 1, y - 1 : y + w + 1]
         
         	
         	kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 1))
@@ -203,4 +206,4 @@ dataframe = dataframe.loc[:, ~dataframe.columns.duplicated()]
 st.header('Resulting table')
 st.write(dataframe)
 
-dataframe.to_excel("output.xlsx")
+dataframe.to_excel(filename + ".xlsx")
